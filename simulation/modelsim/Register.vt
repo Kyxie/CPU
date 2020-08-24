@@ -1,0 +1,98 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/13/2019 20:31:02"
+                                                                                
+// Verilog Test Bench template for design : Register
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module Register_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg [15:0] d_in;
+reg en_in;
+reg [1:0] rd;
+reg [3:0] reg_en;
+reg [1:0] rs;
+reg rst;
+// wires                                               
+wire en_out;
+wire [15:0]  rd_q;
+wire [15:0]  rs_q;
+
+// assign statements (if any)                          
+Register i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.d_in(d_in),
+	.en_in(en_in),
+	.en_out(en_out),
+	.rd(rd),
+	.rd_q(rd_q),
+	.reg_en(reg_en),
+	.rs(rs),
+	.rs_q(rs_q),
+	.rst(rst)
+);
+initial                                                
+begin   
+   // 将数据初始化为0，rst初始化为无效（低有效）
+	clk = 0;
+	d_in = 16'b0;
+	en_in = 1'b0;
+	rd = 2'b00;
+	reg_en = 4'b0000;
+	rs = 2'b00;
+	rst = 1'b1;
+	// 将16'h000f，16'h00f0，16'h0f00，16'hf000分别存入寄存器0，1，2，3
+	#10 
+	d_in = 16'h000f;
+	reg_en = 4'b0001;
+	#10
+	d_in = 16'h00f0;
+	reg_en = 4'b0010;
+	#10 
+	d_in = 16'h0f00;
+	reg_en = 4'b0100;
+	#10
+	d_in = 16'hf000;
+	reg_en = 4'b1000;
+	// 将寄存器0，1，2，3中的值读取到rd_q和rs_q中
+	#15	//等到时钟上升沿再使en_in有效
+	en_in = 1'b1;
+	rd = 2'b00;
+	rs = 2'b01;
+	#20
+	rd = 2'b10;
+	rs = 2'b11;
+	// 置重置为有效
+	#20 rst=0;
+	
+	#20 $stop;
+end              
+   // 每隔5个时钟单位反转clk形成时钟信号
+always #5 clk=~clk;                                                    
+endmodule
+

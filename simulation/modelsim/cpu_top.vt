@@ -1,0 +1,59 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "06/04/2019 19:37:17"
+                                                                                
+// Verilog Test Bench template for design : cpu_top
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module cpu_top_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg en_in;
+reg rst;
+// wires                                               
+
+// assign statements (if any)                          
+cpu_top i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.en_in(en_in),
+	.rst(rst)
+);
+initial                                                
+begin                                                  
+	clk = 0;
+	en_in = 0;
+	rst = 1;
+	#5
+	rst = 0;
+	#5
+	rst = 1;
+	en_in = 1;
+	#1000 $stop;
+end                                                    
+always	#5 clk = ~clk;                                                    
+endmodule
+

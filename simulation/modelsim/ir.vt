@@ -1,0 +1,67 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/21/2019 20:01:58"
+                                                                                
+// Verilog Test Bench template for design : ir
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module ir_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg en_in;
+reg [15:0] ins;
+reg rst;
+// wires                                               
+wire en_out;
+wire [15:0]  ir_out;
+
+// assign statements (if any)                          
+ir i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.en_in(en_in),
+	.en_out(en_out),
+	.ins(ins),
+	.ir_out(ir_out),
+	.rst(rst)
+);
+initial                                                
+begin                                                  
+	rst = 1'b0;	//低有效
+	clk = 1'b0;
+	en_in = 1'b0;
+	ins = 16'b1;
+	
+	#10 rst = 1'b1;
+	#10 en_in = 1'b1;
+	#15 ins = 16'd23;
+	#10 en_in = 1'b0;
+	#10 $stop;
+end                                                    
+always                                                                 
+	#5 clk = ~clk;
+endmodule
+

@@ -1,0 +1,90 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/13/2019 19:17:22"
+                                                                                
+// Verilog Test Bench template for design : ALU_mux
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module ALU_mux_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg alu_in_sel;
+reg clk;
+reg en_in;
+reg [7:0] offset;
+reg [15:0] rd_q;
+reg [15:0] rs_q;
+reg rst;
+// wires                                               
+wire [15:0]  alu_a;
+wire [15:0]  alu_b;
+wire en_out;
+
+// assign statements (if any)                          
+ALU_mux i1 (
+// port map - connection between master ports and signals/registers   
+	.alu_a(alu_a),
+	.alu_b(alu_b),
+	.alu_in_sel(alu_in_sel),
+	.clk(clk),
+	.en_in(en_in),
+	.en_out(en_out),
+	.offset(offset),
+	.rd_q(rd_q),
+	.rs_q(rs_q),
+	.rst(rst)
+);
+initial                                                
+begin                                                  
+	// 初始化clk
+	clk = 1'b0;
+	// 将en_in（高有效）初始化为无效
+	en_in = 1'b0;
+	// 将rst（低有效）初始化为有效
+	rst = 1'b0; 
+	// 为方便助教检测，统一将offset初始化为8'hff,rd_q初始化为16'hff00，rs_q初始化为16'h0f0f
+	offset = 8'hff;	
+	rd_q = 16'hff00;
+	rs_q = 16'h0f0f;
+	
+	// 隔10个时间单位后将rst设为无效。思考：这里为什么要先触发一次rst信号呢？
+	#10 rst=1'b1;	//等待时钟上升沿
+	
+	// 隔10个时间单位后将en_in设为有效同时修改alu_in_sel为0
+	#10 en_in = 1'b1; alu_in_sel = 1'b0;
+	// 隔20个时间单位后修改alu_in_sel为1
+	#20 alu_in_sel = 1'b1;
+	
+	// 隔20个时间单位后置rst有效
+	#20 rst=1'b0;
+	// 隔20个时间单位后停止仿真
+	#20 $stop;
+               
+end         
+                                           
+// 每隔10隔时间单位反转clk，生成时钟信号 思考：这个时钟的周期是多少?                                   
+always #10 clk=~clk;   //时钟周期为#20
+                                                 
+endmodule

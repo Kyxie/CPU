@@ -1,0 +1,184 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/22/2019 11:23:38"
+                                                                                
+// Verilog Test Bench template for design : state_transition
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module state_transition_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg en1;
+reg en2;
+reg en_in;
+reg [3:0] opcode;
+reg [1:0] rd;
+reg rst;
+// wires                                               
+wire [2:0]  alu_func;
+wire alu_in_sel;
+wire en_fetch_pulse;
+wire en_pc_pulse;
+wire en_rf_pulse;
+wire [1:0]  pc_ctrl;
+wire [3:0]  reg_en;
+
+// assign statements (if any)                          
+state_transition i1 (
+// port map - connection between master ports and signals/registers   
+	.alu_func(alu_func),
+	.alu_in_sel(alu_in_sel),
+	.clk(clk),
+	.en1(en1),
+	.en2(en2),
+	.en_fetch_pulse(en_fetch_pulse),
+	.en_in(en_in),
+	.en_pc_pulse(en_pc_pulse),
+	.en_rf_pulse(en_rf_pulse),
+	.opcode(opcode),
+	.pc_ctrl(pc_ctrl),
+	.rd(rd),
+	.reg_en(reg_en),
+	.rst(rst)
+);
+initial                                                
+begin                                                  
+	clk=0;
+	en1=0;
+	en2=0;
+	en_in=0;
+	rst=1;
+	// 准备好指令
+	opcode=4'b0000;	//MOVE R0
+	rd=2'b00;	//选中R0
+	// 初始化，取指令
+	#10 
+	rst=0;
+	en_in=1;
+	#10 
+	rst=1;
+	
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	#10
+   // 准备好指令
+	opcode=4'b0001;	//MOVE R1
+	rd=rd+1;	//Rd = 01
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	#10
+	// 准备好指令
+	opcode=4'b0010;	//Add R2 
+	rd=rd+1;	//Rd = 10
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	#10
+	// 准备好指令
+	opcode=4'b0011;	//Add
+	rd=rd+1;	//Rd = 11
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	// 准备好指令
+	#10
+	opcode=4'b0100;	//Sub
+	rd=rd+1;	//Rd = 00
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	// 准备好指令
+	#10
+	opcode=4'b0101;	//And
+	rd=rd+1;	//Rd = 01
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	// 准备好指令
+	#10
+	opcode=4'b0110;	//Or
+	rd=rd+1;	//Rd = 10
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	// 准备好指令
+	#10
+	opcode=4'b0111;	//Jump
+	rd=rd+1;	//Rd = 11
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+   // 准备好指令
+	#10
+	opcode=4'b1000;	//LS
+	rd=rd+1;	//Rd = 00
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	// 准备好指令
+	#10
+	opcode=4'b1001;	//RS
+	rd=rd+1;	//Rd = 01
+	#10
+	en1=1;
+	en2=0;
+	#30
+	en1=0;
+	en2=1;
+	
+	#30 $stop;
+end                                                    
+always #5 clk=~clk;                                                                                                                                                   
+endmodule

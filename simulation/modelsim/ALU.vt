@@ -1,0 +1,98 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/13/2019 19:12:54"
+                                                                                
+// Verilog Test Bench template for design : ALU
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module ALU_vlg_tst();
+`define B15to0H 3'b000
+`define AandBH  3'b011
+`define AorBH   3'b100
+`define AaddBH  3'b001
+`define AsubBH  3'b010
+`define AshflH  3'b101
+`define AshfrH  3'b110
+
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg [15:0] alu_a;
+reg [15:0] alu_b;
+reg [2:0] alu_func;
+reg clk;
+reg en_in;
+reg rst;
+// wires                                               
+wire [15:0]  alu_out;
+wire en_out;
+
+// assign statements (if any)                          
+ALU i1 (
+// port map - connection between master ports and signals/registers   
+	.alu_a(alu_a),
+	.alu_b(alu_b),
+	.alu_func(alu_func),
+	.alu_out(alu_out),
+	.clk(clk),
+	.en_in(en_in),
+	.en_out(en_out),
+	.rst(rst)
+);
+initial                                                
+begin                                                                        
+	// 初始化clk
+	clk=1'b0;
+	// 将en_in（高有效）,rst（低有效）初始化为无效
+	en_in=1'b0;
+	rst=1'b1;
+	// 初始化alu_func为`B15to0H
+	alu_func =`B15to0H;
+	// 为方便助教检查，这里固定将alu_a设为2，alu_b设为3
+	alu_a = 15'b10;
+	alu_b = 15'b11;
+
+
+	// 隔10个时间单位后，将en_in置为有效
+	#10 en_in=1'b1;
+
+	// 每隔20个时间单位切换alu_func的指令
+	#20 alu_func = `AandBH;
+	#20 alu_func = `AorBH;
+	#20 alu_func = `AaddBH;
+	#20 alu_func = `AsubBH;
+	#20 alu_func = `AshflH;
+	#20 alu_func = `AshfrH;
+	// 隔20隔时间单位后，将rst置为有效
+	#20 rst=1'b0;
+	// 隔20隔时间单位后停止仿真
+	#20 $stop;
+									
+end  
+               
+// 每隔10隔时间单位反转clk，生成时钟信号                                   
+always #10 clk=~clk; 
+
+endmodule
+

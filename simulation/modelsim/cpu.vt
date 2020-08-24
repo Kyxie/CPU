@@ -1,0 +1,99 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "05/28/2019 14:38:23"
+                                                                                
+// Verilog Test Bench template for design : cpu
+// 
+// Simulation tool : ModelSim-Altera (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module cpu_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg en_in;
+reg en_ram_out;
+reg [15:0] ins;
+reg rst;
+// wires                                               
+wire [15:0]  addr;
+wire en_ram_in;
+
+// assign statements (if any)                          
+cpu i1 (
+// port map - connection between master ports and signals/registers   
+	.addr(addr),
+	.clk(clk),
+	.en_in(en_in),
+	.en_ram_in(en_ram_in),
+	.en_ram_out(en_ram_out),
+	.ins(ins),
+	.rst(rst)
+);
+
+always @ (posedge clk or negedge rst)
+begin
+	if(!rst)
+	begin
+		en_ram_out <= 1'b0;
+		ins <= 16'b0;
+	end
+	else
+	begin
+		if(en_ram_in)
+		begin
+			en_ram_out <= 1'b1;
+			case(addr)
+				16'b0000: ins <= 16'b0000_1000_0000_0010; 
+				16'b0001: ins <= 16'b0001_1101_0000_0000; 
+				16'b0010: ins <= 16'b0010_0000_0000_0100; 
+				16'b0011: ins <= 16'b0011_1001_0000_0000; 
+				16'b0100: ins <= 16'b0100_0110_0000_0000; 
+				16'b0101: ins <= 16'b0101_0011_0000_0000; 
+				16'b0110: ins <= 16'b0110_1000_0000_0000; 
+				16'b0111: ins <= 16'b0111_0000_0000_0010; 
+				16'b1000: ins <= 16'b1000_0110_0000_0000; 
+				16'b1001: ins <= 16'b1001_0110_0000_0000;
+				16'b1100: ins <= 16'b1100_1001_0000_0000;
+				16'b1101: ins <= 16'b1101_1001_0000_0000;
+				16'b1110: ins <= 16'b1110_1101_0000_0000;
+				16'b1111: ins <= 16'b1111_0100_0000_1111;
+				default: ins <= 16'b0;
+			endcase
+		end
+		else
+			en_ram_out <= 1'b0;
+	end
+end
+
+initial
+begin
+	clk = 0;
+	rst = 0;
+	en_in = 1;
+	#1 rst = 1;
+	#2000 $stop;
+end
+always #5 clk = ~clk;
+
+endmodule
